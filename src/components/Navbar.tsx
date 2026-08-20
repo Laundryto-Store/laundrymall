@@ -14,7 +14,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+    <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 shadow-sm transition-all">
       {/* Top bar */}
       <div className="bg-blue-600 text-white text-sm py-2 px-4 flex justify-between items-center">
         <div className="font-medium tracking-wide">Welcome to Laundry Mall &nbsp;&nbsp;|&nbsp;&nbsp; <span className="text-blue-200">A LaundryTO Company</span></div>
@@ -31,9 +31,15 @@ export default function Navbar() {
             <button className="sm:hidden text-gray-500 hover:text-blue-600 transition">
               <Menu className="w-6 h-6" />
             </button>
-            <Link href="/" className="text-2xl font-black tracking-tighter flex items-center gap-1">
-              <span className="text-gray-900">LAUNDRY</span>
-              <span className="text-blue-600">MALL</span>
+            <Link href="/" className="flex items-center gap-2 group">
+              <img 
+                src="https://laundryto.in/images/logo/PNG.png" 
+                alt="LaundryTO Logo" 
+                className="h-10 w-auto object-contain group-hover:scale-105 transition-transform"
+              />
+              <span className="text-xl font-black tracking-tighter text-gray-900 border-l-2 border-gray-200 pl-2 ml-1">
+                MALL
+              </span>
             </Link>
           </div>
           
