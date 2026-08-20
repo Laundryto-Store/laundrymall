@@ -2,7 +2,7 @@
 
 import { Product } from "@/data/products";
 import { useCartStore } from "@/store/cartStore";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 import { useState } from "react";
 
 export default function AddToCartButton({ product }: { product: Product }) {
@@ -14,28 +14,25 @@ export default function AddToCartButton({ product }: { product: Product }) {
   };
 
   return (
-    <div className="mt-auto flex flex-col sm:flex-row gap-4">
-      <div className="flex border border-gray-300 rounded-md bg-white">
+    <div className="mt-auto flex flex-col sm:flex-row gap-4 pt-2">
+      <div className="flex border border-gray-200 rounded-xl bg-gray-50 p-1">
         <button 
           onClick={() => setQuantity(Math.max(1, quantity - 1))}
-          className="px-4 py-3 text-gray-600 hover:bg-gray-100 font-medium"
+          className="w-12 h-12 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-white rounded-lg transition-colors font-medium shadow-sm"
         >-</button>
-        <input 
-          type="text" 
-          value={quantity} 
-          readOnly 
-          className="w-16 text-center border-x border-gray-300 focus:outline-none" 
-        />
+        <div className="w-16 flex items-center justify-center font-bold text-gray-900 text-lg">
+          {quantity}
+        </div>
         <button 
           onClick={() => setQuantity(quantity + 1)}
-          className="px-4 py-3 text-gray-600 hover:bg-gray-100 font-medium"
+          className="w-12 h-12 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-white rounded-lg transition-colors font-medium shadow-sm"
         >+</button>
       </div>
       <button 
         onClick={handleAddToCart}
-        className="flex-1 bg-blue-600 text-white font-bold py-3 px-6 rounded-md hover:bg-blue-700 transition flex items-center justify-center gap-2 shadow-sm"
+        className="flex-1 bg-blue-600 text-white font-bold py-4 px-8 rounded-xl hover:bg-blue-700 transition-all shadow-[0_8px_30px_rgb(59,130,246,0.3)] hover:shadow-[0_8px_30px_rgb(59,130,246,0.5)] hover:-translate-y-1 flex items-center justify-center gap-3 text-lg group"
       >
-        <ShoppingCart className="w-5 h-5" />
+        <ShoppingBag className="w-6 h-6 group-hover:-rotate-12 transition-transform" />
         Add to Cart
       </button>
     </div>
