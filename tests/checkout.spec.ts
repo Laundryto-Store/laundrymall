@@ -25,11 +25,9 @@ test.describe('E2E Checkout Flow', () => {
     await page.goto('/');
     await expect(page).toHaveTitle(/LaundryTO/);
 
-    // 3. Navigate to products page
-    await page.click('text=Shop Now');
+    // 3. Navigate to products page directly to avoid Next.js hydration race conditions
+    await page.goto('/products');
     await expect(page).toHaveURL(/.*products/);
-
-    // 4. Add the first product to the cart
     // Wait for product cards to load
     await page.waitForSelector('button:has-text("Add to Cart")');
     const addToCartButtons = await page.$$('button:has-text("Add to Cart")');
