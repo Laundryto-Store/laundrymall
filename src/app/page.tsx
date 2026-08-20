@@ -128,11 +128,14 @@ export default async function Home() {
       </section>
 
       {/* Categories Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="flex justify-between items-end mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Shop by Category</h2>
-          <Link href="/products" className="text-blue-600 font-medium hover:underline flex items-center gap-1">
-            View All <ArrowRight className="w-4 h-4" />
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-8">
+        <div className="flex justify-between items-end mb-8">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Shop by Category</h2>
+            <p className="text-gray-500 mt-2">Explore our premium selection of franchise supplies.</p>
+          </div>
+          <Link href="/products" className="text-blue-600 font-bold hover:text-blue-700 hover:underline flex items-center gap-1 transition-colors">
+            View All Categories <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -140,28 +143,26 @@ export default async function Home() {
             <Link 
               key={collection.id} 
               href={`/products?category=${encodeURIComponent(collection.title)}`}
-              className="bg-white border border-gray-200 rounded-lg p-6 text-center hover:border-blue-500 hover:shadow-md transition group"
+              className="bg-white border border-gray-100 rounded-2xl p-8 text-center hover:border-blue-200 hover:shadow-[0_8px_30px_rgb(59,130,246,0.12)] hover:-translate-y-1 transition-all group"
             >
-              <h3 className="font-semibold text-gray-800 group-hover:text-blue-600">{collection.title}</h3>
+              <div className="w-12 h-12 mx-auto bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+              </div>
+              <h3 className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{collection.title}</h3>
             </Link>
           ))}
         </div>
       </section>
 
       {/* Special Deals */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Special Deals</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {newArrivals.map((product: any) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-16">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="bg-red-100 text-red-600 p-2 rounded-lg">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+          </div>
+          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Best Sellers</h2>
         </div>
-      </section>
-
-      {/* Special Deals - Another Category Map */}
-      <section className="py-16">
-        <h2 className="text-3xl font-bold mb-10 text-center">Special Deals</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           {specialDeals.map((product: any) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -169,9 +170,14 @@ export default async function Home() {
       </section>
 
       {/* New Arrivals */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">New Arrivals</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-16 pb-8">
+        <div className="flex justify-between items-end mb-8">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">New Arrivals</h2>
+            <p className="text-gray-500 mt-2">The latest equipment added to our catalog.</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           {newArrivals.map((product: any) => (
             <ProductCard key={product.id} product={product} />
           ))}
