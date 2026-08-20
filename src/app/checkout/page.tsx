@@ -89,9 +89,9 @@ export default function CheckoutPage() {
           <form onSubmit={handleCheckout} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
             <h2 className="text-xl font-semibold mb-6 pb-2 border-b">Contact Information</h2>
             <div className="mb-8">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
               <input 
-                required type="email" 
+                id="email" name="email" required type="email" 
                 value={form.email} onChange={e => setForm({...form, email: e.target.value})}
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
               />
@@ -100,32 +100,32 @@ export default function CheckoutPage() {
             <h2 className="text-xl font-semibold mb-6 pb-2 border-b">Shipping Address</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
-                <input required type="text" value={form.first_name} onChange={e => setForm({...form, first_name: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
+                <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                <input id="first_name" name="first_name" required type="text" value={form.first_name} onChange={e => setForm({...form, first_name: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
-                <input required type="text" value={form.last_name} onChange={e => setForm({...form, last_name: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
+                <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                <input id="last_name" name="last_name" required type="text" value={form.last_name} onChange={e => setForm({...form, last_name: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
               </div>
               <div className="sm:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
-                <input required type="text" value={form.address_1} onChange={e => setForm({...form, address_1: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
+                <label htmlFor="address_1" className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                <input id="address_1" name="address_1" required type="text" value={form.address_1} onChange={e => setForm({...form, address_1: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
-                <input required type="text" value={form.city} onChange={e => setForm({...form, city: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
+                <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">City</label>
+                <input id="city" name="city" required type="text" value={form.city} onChange={e => setForm({...form, city: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">State / Province</label>
-                <input required type="text" value={form.province} onChange={e => setForm({...form, province: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
+                <label htmlFor="province" className="block text-sm font-medium text-gray-700 mb-2">State / Province</label>
+                <input id="province" name="province" required type="text" value={form.province} onChange={e => setForm({...form, province: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Postal Code</label>
-                <input required type="text" value={form.postal_code} onChange={e => setForm({...form, postal_code: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
+                <label htmlFor="postal_code" className="block text-sm font-medium text-gray-700 mb-2">Postal Code</label>
+                <input id="postal_code" name="postal_code" required type="text" value={form.postal_code} onChange={e => setForm({...form, postal_code: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                <input required type="tel" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                <input id="phone" name="phone" required type="tel" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
               </div>
             </div>
 
