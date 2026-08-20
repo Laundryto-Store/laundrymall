@@ -6,9 +6,12 @@ interface CartItem extends Product {
 }
 
 interface CartStore {
+  cartId: string | null;
   items: CartItem[];
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  setCartId: (id: string) => void;
+  hydrateCart: (medusaCart: any) => void;
   addItem: (product: Product, quantity?: number) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
@@ -18,9 +21,16 @@ interface CartStore {
 }
 
 export const useCartStore = create<CartStore>((set, get) => ({
+  cartId: null,
   items: [],
   isOpen: false,
   setIsOpen: (isOpen) => set({ isOpen }),
+  setCartId: (id) => set({ cartId: id }),
+  hydrateCart: (medusaCart) => {
+    // In Phase 2 implementation, this will map real Medusa line_items back into the local store
+    // For now, it just sets the Cart ID
+    set({ cartId: medusaCart.id });
+  },
   addItem: (product, quantity = 1) => {
     set((state) => {
       const existingItem = state.items.find((item) => item.id === product.id);

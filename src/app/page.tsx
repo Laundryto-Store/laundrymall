@@ -27,8 +27,8 @@ export default async function Home() {
   const { regions } = await medusaClient.store.region.list();
   const indiaRegion = regions.find((r: any) => r.currency_code === "inr") || regions[0];
 
-  const { products } = await medusaClient.store.product.list({ limit: 8, region_id: indiaRegion?.id });
-  const { collections } = await medusaClient.store.collection.list();
+  const { products } = await medusaClient.store.product.list({ limit: 8, region_id: indiaRegion?.id }) as { products: any[] };
+  const { collections } = await medusaClient.store.collection.list() as { collections: any[] };
   
   const frontendProducts = products.map((p: any) => adaptProduct(p, collections));
 
