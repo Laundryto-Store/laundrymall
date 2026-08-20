@@ -22,10 +22,12 @@ jobs:
       env:
         # Ignore TypeScript errors in CI if we have any lingering from prototyping
         NEXT_PUBLIC_MEDUSA_BACKEND_URL: "https://backend-production-3a66.up.railway.app"
+        NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: "pk_bc3432542b3168216839bbb59a558c5b4077cc11fda3ba1c285fd73c4a797c54"
     - name: Start Next.js server in background
       run: npm run start &
       env:
         NEXT_PUBLIC_MEDUSA_BACKEND_URL: "https://backend-production-3a66.up.railway.app"
+        NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: "pk_bc3432542b3168216839bbb59a558c5b4077cc11fda3ba1c285fd73c4a797c54"
     - name: Wait for server to be ready
       run: npx wait-on http://localhost:3000
     - name: Run Playwright tests
