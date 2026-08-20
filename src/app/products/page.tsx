@@ -1,4 +1,4 @@
-import { medusaClient } from "@/lib/medusa";
+import { getCachedRegions, getCachedCollections, getCachedProducts } from "@/lib/medusa-cache";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import { Product } from "@/data/products";
@@ -30,16 +30,13 @@ export default async function ProductsPage({
   const params = await searchParams;
   const selectedCategory = params.category;
   
-  // Fetch region to get correct pricing
-  const { regions } = await medusaClient.store.region.list();
+  // Fetch region to get correct pricing (Cached)
+  const regions = await getCachedRegions();
   const indiaRegion = regions.find((r: any) => r.currency_code === "inr") || regions[0];
 
-  // Fetch live products from Medusa (V2 SDK structure)
-  const { products } = await medusaClient.store.product.list({ 
-    limit: 200,
-    region_id: indiaRegion?.id 
-  });
-  const { collections } = await medusaClient.store.collection.list();
+  // Fetch live products from Medusa (Cached)
+  const products = await getCachedProducts(indiaRegion?.id);
+  const collections = await getCachedCollections();
   
   const frontendProducts = products.map((p: any) => adaptProduct(p, collections));
 

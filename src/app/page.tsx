@@ -1,10 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PRODUCTS, CATEGORIES } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import { ArrowRight } from "lucide-react";
 
-import { medusaClient } from "@/lib/medusa";
+import { getCachedRegions, getCachedCollections, getCachedProducts } from "@/lib/medusa-cache";
 import { Product } from "@/data/products";
 
 // Adapter to convert Medusa API product to our frontend format
@@ -24,11 +23,11 @@ function adaptProduct(medusaProduct: any, collections: any[]): Product {
 }
 
 export default async function Home() {
-  const { regions } = await medusaClient.store.region.list();
+  const regions = await getCachedRegions();
   const indiaRegion = regions.find((r: any) => r.currency_code === "inr") || regions[0];
 
-  const { products } = await medusaClient.store.product.list({ limit: 8, region_id: indiaRegion?.id }) as { products: any[] };
-  const { collections } = await medusaClient.store.collection.list() as { collections: any[] };
+  const products = await getCachedProducts(indiaRegion?.id);
+  const collections = await getCachedCollections();
   
   const frontendProducts = products.map((p: any) => adaptProduct(p, collections));
 
