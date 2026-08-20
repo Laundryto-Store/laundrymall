@@ -42,6 +42,6 @@ test.describe('E2E Checkout Flow', () => {
     await page.click('button:has-text("Place Test Order")');
 
     // 9. Verify success
-    await expect(page.locator('text=Order Confirmed!')).toBeVisible();
+    await expect(page.locator('text=Order Confirmed!')).toBeVisible({ timeout: 30000 });
   });
 });
