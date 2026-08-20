@@ -11,7 +11,7 @@ interface CartStore {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   setCartId: (id: string) => void;
-  hydrateCart: (medusaCart: any) => void;
+  hydrateCart: (medusaCart: { id: string }) => void;
   addItem: (product: Product, quantity?: number) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;

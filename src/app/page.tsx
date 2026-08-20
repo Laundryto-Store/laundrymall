@@ -2,37 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import { ArrowRight } from "lucide-react";
-
-import { getCachedRegions, getCachedCollections, getCachedProducts } from "@/lib/medusa-cache";
-import { Product } from "@/data/products";
-
-// Adapter to convert Medusa API product to our frontend format
-function adaptProduct(medusaProduct: any, collections: any[]): Product {
-  const price = medusaProduct.variants?.[0]?.calculated_price?.calculated_amount || 0;
-  const collection = collections.find(c => c.id === medusaProduct.collection_id);
-  
-  return {
-    id: medusaProduct.id,
-    variantId: medusaProduct.variants?.[0]?.id,
-    name: medusaProduct.title,
-    category: collection?.title || "Uncategorized",
-    price: price, 
-    image: medusaProduct.thumbnail || "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?q=80&w=600&auto=format&fit=crop",
-    description: medusaProduct.description || "Laundry Mall Product",
-  };
-}
+import { getCachedCollections, getCachedFrontendProducts } from "@/lib/medusa-cache";
 
 export default async function Home() {
-  const regions = await getCachedRegions();
-  const indiaRegion = regions.find((r: any) => r.currency_code === "inr") || regions[0];
-
-  const products = await getCachedProducts(indiaRegion?.id);
+  const products = await getCachedFrontendProducts();
   const collections = await getCachedCollections();
   
-  const frontendProducts = products.map((p: any) => adaptProduct(p, collections));
-
-  const newArrivals = frontendProducts.slice(0, 4);
-  const specialDeals = frontendProducts.slice(4, 8);
+  const newArrivals = products.slice(0, 4);
+  const specialDeals = products.slice(4, 8);
 
   return (
     <div className="flex flex-col gap-16 pb-12">
@@ -74,21 +51,6 @@ export default async function Home() {
                 Contact Sales
               </Link>
             </div>
-            
-            {/* Social Proof */}
-            <div className="mt-12 flex items-center gap-6 pt-6 border-t border-gray-100 w-full">
-              <div className="flex -space-x-3">
-                <img className="w-10 h-10 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&q=80" alt="Franchise Owner" />
-                <img className="w-10 h-10 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&q=80" alt="Franchise Owner" />
-                <img className="w-10 h-10 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&q=80" alt="Franchise Owner" />
-              </div>
-              <div className="text-sm">
-                <div className="flex text-yellow-400">
-                  {"★★★★★"}
-                </div>
-                <span className="text-gray-500 font-medium">Trusted by 50+ FOCO Outlets</span>
-              </div>
-            </div>
           </div>
 
           {/* Right Image Content */}
@@ -104,22 +66,9 @@ export default async function Home() {
               />
               <div className="absolute bottom-8 left-8 z-20 text-white">
                 <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-lg border border-white/30 inline-block mb-3">
-                  <span className="font-semibold tracking-wide">✓ Standardized Quality</span>
+                  <span className="font-semibold tracking-wide">? Standardized Quality</span>
                 </div>
                 <h3 className="text-2xl font-bold">LaundryTO Excellence</h3>
-              </div>
-            </div>
-            
-            {/* Floating Card */}
-            <div className="absolute -bottom-8 -left-8 bg-white p-6 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 hidden lg:block z-30 animate-bounce" style={{ animationDuration: '3s' }}>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 font-medium uppercase tracking-wider">Fast Delivery</p>
-                  <p className="font-bold text-gray-900">24-48 Hour Dispatch</p>
-                </div>
               </div>
             </div>
           </div>
@@ -138,10 +87,10 @@ export default async function Home() {
           </Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {collections.slice(0, 8).map((collection: any) => (
+          {collections.slice(0, 8).map((collection) => (
             <Link 
               key={collection.id} 
-              href={`/products?category=${encodeURIComponent(collection.title)}`}
+              href={`/products?category=` + encodeURIComponent(collection.title)}
               className="bg-white border border-gray-100 rounded-2xl p-8 text-center hover:border-blue-200 hover:shadow-[0_8px_30px_rgb(59,130,246,0.12)] hover:-translate-y-1 transition-all group"
             >
               <div className="w-12 h-12 mx-auto bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
@@ -153,7 +102,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Special Deals */}
+      {/* Best Sellers */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-16">
         <div className="flex items-center gap-3 mb-8">
           <div className="bg-red-100 text-red-600 p-2 rounded-lg">
@@ -162,7 +111,7 @@ export default async function Home() {
           <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Best Sellers</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {specialDeals.map((product: any) => (
+          {specialDeals.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
@@ -177,7 +126,7 @@ export default async function Home() {
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {newArrivals.map((product: any) => (
+          {newArrivals.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>

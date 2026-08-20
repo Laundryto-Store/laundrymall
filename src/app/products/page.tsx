@@ -1,26 +1,6 @@
-import { getCachedRegions, getCachedCollections, getCachedProducts } from "@/lib/medusa-cache";
+import { getCachedCollections, getCachedFrontendProducts } from "@/lib/medusa-cache";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
-import { Product } from "@/data/products";
-
-// Adapter to convert Medusa API product to our frontend format
-function adaptProduct(medusaProduct: any, collections: any[]): Product {
-  const price = medusaProduct.variants?.[0]?.calculated_price?.calculated_amount || 0;
-  
-  // Find collection title by matching collection_id
-  const collection = collections.find(c => c.id === medusaProduct.collection_id);
-  const categoryName = collection?.title || "Uncategorized";
-  
-  return {
-    id: medusaProduct.id,
-    variantId: medusaProduct.variants?.[0]?.id,
-    name: medusaProduct.title,
-    category: categoryName,
-    price: price, 
-    image: medusaProduct.thumbnail || "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?q=80&w=600&auto=format&fit=crop", 
-    description: medusaProduct.description || "Laundry Mall Product",
-  };
-}
 
 export default async function ProductsPage({
   searchParams,
@@ -30,18 +10,12 @@ export default async function ProductsPage({
   const params = await searchParams;
   const selectedCategory = params.category;
   
-  // Fetch region to get correct pricing (Cached)
-  const regions = await getCachedRegions();
-  const indiaRegion = regions.find((r: any) => r.currency_code === "inr") || regions[0];
-
-  // Fetch live products from Medusa (Cached)
-  const products = await getCachedProducts(indiaRegion?.id);
+  // Fetch live products from Data Access Layer
+  const frontendProducts = await getCachedFrontendProducts();
   const collections = await getCachedCollections();
   
-  const frontendProducts = products.map((p: any) => adaptProduct(p, collections));
-
   const filteredProducts = selectedCategory
-    ? frontendProducts.filter((p: any) => p.category === selectedCategory)
+    ? frontendProducts.filter((p) => p.category === selectedCategory)
     : frontendProducts;
 
   return (
@@ -59,10 +33,10 @@ export default async function ProductsPage({
                 All Products
               </Link>
             </li>
-            {collections.map((collection: any) => (
+            {collections.map((collection) => (
               <li key={collection.id}>
                 <Link 
-                  href={`/products?category=${encodeURIComponent(collection.title)}`}
+                  href={`/products?category=` + encodeURIComponent(collection.title)}
                   className={`block py-1 ${selectedCategory === collection.title ? 'text-blue-600 font-semibold' : 'text-gray-600 hover:text-blue-600'}`}
                 >
                   {collection.title}
@@ -86,7 +60,7 @@ export default async function ProductsPage({
 
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProducts.map((product: any) => (
+            {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

@@ -35,3 +35,9 @@ export interface CheckoutForm {
   postal_code: string;
   phone: string;
 }
+
+export interface MedusaRegion {
+  id: string;
+  name: string;
+  currency_code: string;
+}

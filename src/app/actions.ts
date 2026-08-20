@@ -1,12 +1,19 @@
 "use server";
 
 import { medusaClient } from "@/lib/medusa";
+import { CheckoutForm, MedusaRegion } from "@/types/medusa";
+import { Product } from "@/data/products";
 
-export async function processCheckoutOnServer(items: any[], form: any) {
+// We define a CartItem type for what the frontend passes in
+export interface CartItem extends Product {
+  quantity: number;
+}
+
+export async function processCheckoutOnServer(items: CartItem[], form: CheckoutForm) {
   try {
     // 1. Fetch Region
-    const { regions } = await medusaClient.store.region.list();
-    const indiaRegion = regions.find((r: any) => r.currency_code === "inr") || regions[0];
+    const { regions } = await medusaClient.store.region.list() as { regions: MedusaRegion[] };
+    const indiaRegion = regions.find((r) => r.currency_code === "inr") || regions[0];
 
     // 2. Create Cart
     const cartResp = await medusaClient.store.cart.create({ 
@@ -43,8 +50,9 @@ export async function processCheckoutOnServer(items: any[], form: any) {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     return { success: true, cartId };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Server checkout error:", error);
-    return { success: false, error: error.message || "Failed to process checkout" };
+    const msg = error instanceof Error ? error.message : "Failed to process checkout";
+    return { success: false, error: msg };
   }
 }

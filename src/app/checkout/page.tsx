@@ -46,9 +46,9 @@ export default function CheckoutPage() {
         setErrorMessage(result.error || "Checkout failed");
         setStatus("error");
       }
-    } catch (err: any) {
-      console.error("Checkout error", err);
-      setErrorMessage("Something went wrong. Please try again.");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      setErrorMessage(errorMsg);
       setStatus("error");
     }
   };
