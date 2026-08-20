@@ -47,7 +47,7 @@ test.describe('E2E Checkout Flow', () => {
     await page.getByLabel('First Name').fill('Test');
     await page.getByLabel('Last Name').fill('Robot');
     await page.getByLabel('Email Address').fill('robot@test.com');
-    await page.getByLabel('Address').fill('123 QA Automation St');
+    await page.getByLabel('Address', { exact: true }).fill('123 QA Automation St');
     await page.getByLabel('City').fill('Ahmedabad');
     await page.getByLabel('Postal Code').fill('380001');
     await page.getByLabel('Phone').fill('1234567890');
