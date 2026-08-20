@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@medusajs/js-sdk": "^2.19.0",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.2",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "lucide-react": "^1.32.0",
