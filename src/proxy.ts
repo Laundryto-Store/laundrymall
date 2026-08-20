@@ -20,7 +20,7 @@ const ratelimit = redis ? new Ratelimit({
   analytics: true,
 }) : null;
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // We only want to rate limit POST/PUT/DELETE requests (like Server Actions or Checkout).
   // Normal GET requests for page views should be fast and unrestricted since Vercel caches them.
   if (request.method === "GET") {
@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Get the IP address of the user making the request
-  const ip = request.ip ?? "127.0.0.1";
+  const ip = request.headers.get("x-forwarded-for") ?? request.headers.get("x-real-ip") ?? "127.0.0.1";
 
   try {
     const { success, pending, limit, reset, remaining } = await ratelimit.limit(ip);
