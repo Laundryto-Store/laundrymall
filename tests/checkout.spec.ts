@@ -2,6 +2,9 @@ import { test, expect } from '@playwright/test';
 
 test.describe('E2E Checkout Flow', () => {
   test('should successfully navigate and complete checkout without hitting production backend', async ({ page }) => {
+    // Increase global test timeout to 60 seconds because the real Medusa backend can be slow
+    test.setTimeout(60000);
+    
     // Note: We are allowing the test to hit the real Next.js Server Action because
     // the action only creates a "Cart" in Medusa and does not complete the Order.
     // This allows us to safely test the DB connection without polluting Orders.
@@ -42,6 +45,6 @@ test.describe('E2E Checkout Flow', () => {
     await page.click('button:has-text("Place Test Order")');
 
     // 9. Verify success
-    await expect(page.locator('text=Order Confirmed!')).toBeVisible({ timeout: 30000 });
+    await expect(page.getByText('Order Confirmed!')).toBeVisible({ timeout: 30000 });
   });
 });
