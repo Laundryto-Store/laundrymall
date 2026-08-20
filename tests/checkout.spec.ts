@@ -29,8 +29,8 @@ test.describe('E2E Checkout Flow', () => {
     await page.goto('/products');
     await expect(page).toHaveURL(/.*products/);
     // Wait for product cards to load
-    await page.waitForSelector('button:has-text("Add to Cart")');
-    const addToCartButtons = await page.$$('button:has-text("Add to Cart")');
+    await page.waitForSelector('button[aria-label="Add to cart"]');
+    const addToCartButtons = await page.$$('button[aria-label="Add to cart"]');
     if (addToCartButtons.length > 0) {
       await addToCartButtons[0].click();
     }
