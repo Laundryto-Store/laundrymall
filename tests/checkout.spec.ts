@@ -43,16 +43,18 @@ test.describe('E2E Checkout Flow', () => {
     await page.click('text=Proceed to Checkout');
     await expect(page).toHaveURL(/.*checkout/);
 
-    // 7. Fill out the checkout form
-    await page.fill('input[name="first_name"]', 'Test');
-    await page.fill('input[name="last_name"]', 'Robot');
-    await page.fill('input[name="email"]', 'robot@test.com');
-    await page.fill('input[name="address_1"]', '123 QA Automation St');
-    await page.fill('input[name="city"]', 'Ahmedabad');
-    await page.fill('input[name="postal_code"]', '380001');
+    // 7. Fill out the checkout form using accessible labels
+    await page.getByLabel('First Name').fill('Test');
+    await page.getByLabel('Last Name').fill('Robot');
+    await page.getByLabel('Email Address').fill('robot@test.com');
+    await page.getByLabel('Address').fill('123 QA Automation St');
+    await page.getByLabel('City').fill('Ahmedabad');
+    await page.getByLabel('Postal Code').fill('380001');
+    await page.getByLabel('Phone').fill('1234567890');
+    await page.getByLabel('State / Province').fill('Gujarat');
 
     // 8. Submit the order
-    await page.click('button:has-text("Place Order")');
+    await page.click('button:has-text("Place Test Order")');
 
     // 9. Verify success
     // Because we mocked the API, it should instantly succeed and show the success message
