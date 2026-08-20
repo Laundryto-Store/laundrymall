@@ -30,7 +30,7 @@ export default async function Home() {
   const { products } = await medusaClient.store.product.list({ limit: 8, region_id: indiaRegion?.id });
   const { collections } = await medusaClient.store.collection.list();
   
-  const frontendProducts = products.map(p => adaptProduct(p, collections));
+  const frontendProducts = products.map((p: any) => adaptProduct(p, collections));
 
   const newArrivals = frontendProducts.slice(0, 4);
   const specialDeals = frontendProducts.slice(4, 8);
@@ -81,7 +81,7 @@ export default async function Home() {
           </Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {collections.slice(0, 8).map((collection) => (
+          {collections.slice(0, 8).map((collection: any) => (
             <Link 
               key={collection.id} 
               href={`/products?category=${encodeURIComponent(collection.title)}`}
@@ -97,7 +97,17 @@ export default async function Home() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Special Deals</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {specialDeals.map((product) => (
+          {newArrivals.map((product: any) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </section>
+
+      {/* Special Deals - Another Category Map */}
+      <section className="py-16">
+        <h2 className="text-3xl font-bold mb-10 text-center">Special Deals</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {specialDeals.map((product: any) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
@@ -107,7 +117,7 @@ export default async function Home() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">New Arrivals</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {newArrivals.map((product) => (
+          {newArrivals.map((product: any) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>

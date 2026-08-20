@@ -41,10 +41,10 @@ export default async function ProductsPage({
   });
   const { collections } = await medusaClient.store.collection.list();
   
-  const frontendProducts = products.map(p => adaptProduct(p, collections));
+  const frontendProducts = products.map((p: any) => adaptProduct(p, collections));
 
   const filteredProducts = selectedCategory
-    ? frontendProducts.filter(p => p.category === selectedCategory)
+    ? frontendProducts.filter((p: any) => p.category === selectedCategory)
     : frontendProducts;
 
   return (
@@ -62,7 +62,7 @@ export default async function ProductsPage({
                 All Products
               </Link>
             </li>
-            {collections.map(collection => (
+            {collections.map((collection: any) => (
               <li key={collection.id}>
                 <Link 
                   href={`/products?category=${encodeURIComponent(collection.title)}`}
