@@ -2,24 +2,9 @@ import { test, expect } from '@playwright/test';
 
 test.describe('E2E Checkout Flow', () => {
   test('should successfully navigate and complete checkout without hitting production backend', async ({ page }) => {
-    // 1. Intercept the checkout Server Action / API call to prevent hitting the real Medusa Backend
-    await page.route('**/checkout', async (route) => {
-      // Mock a successful JSON response
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ success: true, message: 'Order simulated perfectly' }),
-      });
-    });
-
-    // We also intercept Medusa API calls if the frontend tries to call it directly from the client
-    await page.route('**/store/carts*', async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ cart: { id: 'mock_cart_123', items: [] } }),
-      });
-    });
+    // Note: We are allowing the test to hit the real Next.js Server Action because
+    // the action only creates a "Cart" in Medusa and does not complete the Order.
+    // This allows us to safely test the DB connection without polluting Orders.
 
     // 2. Start the user journey on the homepage
     await page.goto('/');
@@ -57,7 +42,6 @@ test.describe('E2E Checkout Flow', () => {
     await page.click('button:has-text("Place Test Order")');
 
     // 9. Verify success
-    // Because we mocked the API, it should instantly succeed and show the success message
-    await expect(page.locator('text=Order Placed Successfully!')).toBeVisible();
+    await expect(page.locator('text=Order Confirmed!')).toBeVisible();
   });
 });
