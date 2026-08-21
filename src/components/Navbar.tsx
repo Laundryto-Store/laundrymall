@@ -79,14 +79,14 @@ export default function Navbar() {
       {/* Categories Bar */}
       <div className="hidden sm:block border-t border-gray-100 bg-gray-50/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ul className="flex space-x-8 py-3 text-sm font-semibold text-gray-600">
-            <li><Link href="/" className="hover:text-blue-600 transition">About Us</Link></li>
+          <ul className="flex space-x-8 py-3 text-sm font-semibold text-gray-600 overflow-x-auto whitespace-nowrap hide-scrollbar">
+            <li><Link href="/" className="hover:text-blue-600 transition">Home</Link></li>
             <li><Link href="/products" className="hover:text-blue-600 transition">All Products</Link></li>
-            <li><Link href="/products?category=COVID-19" className="hover:text-blue-600 transition">COVID-19</Link></li>
-            <li><Link href="/products?category=Hangers" className="hover:text-blue-600 transition">Hangers</Link></li>
-            <li><Link href="/products?category=Chemicals" className="hover:text-blue-600 transition">Chemicals</Link></li>
-            <li><Link href="/products?category=Accessories" className="hover:text-blue-600 transition">Accessories</Link></li>
             <li><Link href="/products?category=Machinery" className="hover:text-blue-600 transition">Machinery</Link></li>
+            <li><Link href="/products?category=Detergent%20Chemicals" className="hover:text-blue-600 transition">Chemicals</Link></li>
+            <li><Link href="/products?category=Packaging%20Materials" className="hover:text-blue-600 transition">Packaging</Link></li>
+            <li><Link href="/products?category=Accessories" className="hover:text-blue-600 transition">Accessories</Link></li>
+            <li><Link href="/products?category=Technology" className="hover:text-blue-600 transition">Technology</Link></li>
           </ul>
         </div>
       </div>
