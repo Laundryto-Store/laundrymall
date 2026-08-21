@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -37,7 +37,8 @@ export async function loginAction(formData: FormData) {
 
     const data = await res.json();
     if (data.token) {
-      cookies().set("_medusa_jwt", data.token, {
+      const cookieStore = await cookies();
+      cookieStore.set("_medusa_jwt", data.token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
@@ -79,7 +80,8 @@ export async function signupAction(formData: FormData) {
       return { error: "Failed to obtain authentication token during signup." };
     }
 
-    cookies().set("_medusa_jwt", token, {
+    const cookieStore = await cookies();
+    cookieStore.set("_medusa_jwt", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
@@ -107,12 +109,14 @@ export async function signupAction(formData: FormData) {
 }
 
 export async function logoutAction() {
-  cookies().delete("_medusa_jwt");
+  const cookieStore = await cookies();
+  cookieStore.delete("_medusa_jwt");
   redirect("/");
 }
 
 export async function getCustomer() {
-  const token = cookies().get("_medusa_jwt")?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get("_medusa_jwt")?.value;
   if (!token) return null;
 
   try {
