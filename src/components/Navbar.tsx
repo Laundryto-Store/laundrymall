@@ -43,23 +43,34 @@ export default function Navbar() {
           
           {/* Desktop Search */}
           <div className="hidden sm:flex flex-1 max-w-xl px-12">
-            <div className="relative w-full group">
+            <form 
+              className="relative w-full group"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const search = formData.get("search") as string;
+                if (search.trim()) {
+                  window.location.href = `/products?search=${encodeURIComponent(search.trim())}`;
+                }
+              }}
+            >
               <input
                 type="text"
+                name="search"
                 placeholder="Search products..."
                 className="w-full border-2 border-gray-200 rounded-full py-2.5 px-6 focus:outline-none focus:border-blue-500 transition shadow-sm"
               />
-              <button className="absolute right-2 top-1.5 bottom-1.5 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition">
+              <button type="submit" className="absolute right-2 top-1.5 bottom-1.5 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition">
                 <Search className="w-4 h-4" />
               </button>
-            </div>
+            </form>
           </div>
           
           <div className="flex items-center gap-8">
-            <button className="text-gray-600 hover:text-blue-600 flex flex-col items-center gap-1 transition">
+            <Link href="/login" className="text-gray-600 hover:text-blue-600 flex flex-col items-center gap-1 transition">
               <User className="w-6 h-6" />
               <span className="text-xs font-medium hidden sm:block">Account</span>
-            </button>
+            </Link>
             <button 
               onClick={() => setIsOpen(true)}
               className="text-gray-600 hover:text-blue-600 flex flex-col items-center gap-1 transition relative group"

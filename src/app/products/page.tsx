@@ -5,18 +5,29 @@ import Link from "next/link";
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; search?: string }>;
 }) {
   const params = await searchParams;
   const selectedCategory = params.category;
+  const searchQuery = params.search;
   
   // Fetch live products from Data Access Layer
   const frontendProducts = await getCachedFrontendProducts();
   const collections = await getCachedCollections();
   
-  const filteredProducts = selectedCategory
-    ? frontendProducts.filter((p) => p.category === selectedCategory)
-    : frontendProducts;
+  let filteredProducts = frontendProducts;
+  
+  if (selectedCategory) {
+    filteredProducts = filteredProducts.filter((p) => p.category === selectedCategory);
+  }
+  
+  if (searchQuery) {
+    const query = searchQuery.toLowerCase();
+    filteredProducts = filteredProducts.filter((p) => 
+      p.name.toLowerCase().includes(query) || 
+      (p.category && p.category.toLowerCase().includes(query))
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row gap-8">
@@ -52,7 +63,7 @@ export default async function ProductsPage({
         <div className="mb-6 pb-4 border-b border-gray-200 flex justify-between items-end">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
-              {selectedCategory ? selectedCategory : "All Products"}
+              {searchQuery ? `Search results for "${searchQuery}"` : (selectedCategory ? selectedCategory : "All Products")}
             </h1>
             <p className="text-gray-500 text-sm mt-1">Showing {filteredProducts.length} results</p>
           </div>
