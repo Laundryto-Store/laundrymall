@@ -13,22 +13,22 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "LaundryTO | Professional Laundry & Dry Cleaning Supplies",
+  title: "LaundryMall | Professional Laundry & Dry Cleaning Supplies",
   description: "The premier B2B supplier for commercial laundry, dry cleaning chemicals, packaging, and machinery.",
   openGraph: {
-    title: "LaundryTO | Professional Laundry Supplies",
+    title: "LaundryMall | Professional Laundry Supplies",
     description: "The premier B2B supplier for commercial laundry, dry cleaning chemicals, packaging, and machinery.",
     url: "https://laundrymall.vercel.app",
-    siteName: "LaundryTO",
+    siteName: "LaundryMall",
     images: [
       {
         url: "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?q=80&w=1200",
         width: 1200,
         height: 630,
-        alt: "LaundryTO Supplies",
+        alt: "LaundryMall Supplies",
       },
     ],
-    locale: "en_US",
+    locale: "en_IN",
     type: "website",
   },
 };

@@ -27,7 +27,7 @@ export default async function Home() {
           <div className="md:w-1/2 flex flex-col items-start text-left">
             <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 text-blue-700 font-bold px-4 py-2 rounded-full text-xs tracking-wider uppercase mb-6 shadow-sm">
               <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-              India's #1 Laundry Franchise Store
+              India's #1 B2B Laundry Store
             </div>
             
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 leading-[1.1] mb-6 tracking-tight">
@@ -40,7 +40,7 @@ export default async function Home() {
             </h1>
             
             <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-lg leading-relaxed font-light">
-              Equip your franchise with enterprise-grade hangers, eco-friendly chemicals, and heavy-duty machinery. Standardized quality for all LaundryTO outlets.
+              Equip your business with enterprise-grade hangers, eco-friendly chemicals, and heavy-duty machinery. Standardized quality for all your outlets.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
@@ -66,9 +66,9 @@ export default async function Home() {
               />
               <div className="absolute bottom-8 left-8 z-20 text-white">
                 <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-lg border border-white/30 inline-block mb-3">
-                  <span className="font-semibold tracking-wide">? Standardized Quality</span>
+                  <span className="font-semibold tracking-wide">✓ Standardized Quality</span>
                 </div>
-                <h3 className="text-2xl font-bold">LaundryTO Excellence</h3>
+                <h3 className="text-2xl font-bold">LaundryMall Excellence</h3>
               </div>
             </div>
           </div>

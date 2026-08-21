@@ -55,7 +55,7 @@ export default function CartDrawer() {
                 <ShoppingBag className="w-12 h-12 text-blue-300" />
               </div>
               <p className="text-2xl font-bold text-gray-900 mb-2 tracking-tight">Your cart is empty</p>
-              <p className="text-gray-500 mb-8">Looks like you haven't added any LaundryTO supplies yet.</p>
+              <p className="text-gray-500 mb-8">Looks like you haven't added any LaundryMall supplies yet.</p>
               <button 
                 onClick={() => setIsOpen(false)}
                 className="bg-blue-600 text-white font-bold px-8 py-3.5 rounded-xl hover:bg-blue-700 transition-all shadow-[0_8px_30px_rgb(59,130,246,0.2)] hover:shadow-[0_8px_30px_rgb(59,130,246,0.4)] hover:-translate-y-0.5"

@@ -76,7 +76,7 @@ export default function CheckoutPage() {
         </div>
         <h1 className="text-4xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight">Order Confirmed!</h1>
         <p className="text-gray-600 mb-10 text-lg max-w-md font-medium">
-          Thank you for choosing LaundryTO. Your enterprise supplies are being prepared for dispatch.
+          Thank you for choosing LaundryMall. Your enterprise supplies are being prepared for dispatch.
         </p>
         <Link href="/products" className="bg-gray-900 text-white px-8 py-4 rounded-xl font-bold hover:bg-gray-800 transition shadow-lg hover:-translate-y-1">
           Continue Shopping
@@ -91,7 +91,7 @@ export default function CheckoutPage() {
       <header className="bg-white border-b border-gray-200 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl font-black tracking-tighter text-blue-600">LaundryTO<span className="text-gray-900">MALL</span></span>
+            <span className="text-2xl font-black tracking-tighter text-blue-600">Laundry<span className="text-gray-900">Mall</span></span>
           </Link>
           <div className="flex items-center text-sm font-semibold text-gray-500 gap-2">
             <Lock className="w-4 h-4 text-gray-400" /> SSL SECURE CHECKOUT
@@ -127,7 +127,7 @@ export default function CheckoutPage() {
                 <div>
                   <label htmlFor="email" className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
                   <input 
-                    id="email" name="email" required type="email" placeholder="store@laundryto.com"
+                    id="email" name="email" required type="email" placeholder="store@laundrymall.com"
                     value={form.email} onChange={e => setForm({...form, email: e.target.value})}
                     className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium text-gray-900 placeholder:text-gray-400"
                   />
@@ -271,7 +271,7 @@ export default function CheckoutPage() {
               <div className="mt-8 bg-blue-50/50 rounded-xl p-4 flex gap-3 items-start border border-blue-100/50">
                 <ShieldCheck className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="font-bold text-blue-900 text-sm mb-1">LaundryTO Buyer Protection</h4>
+                  <h4 className="font-bold text-blue-900 text-sm mb-1">LaundryMall Buyer Protection</h4>
                   <p className="text-xs text-blue-800/70 leading-relaxed">
                     Your purchase is secured with enterprise-grade encryption. 
                     Full refund guarantee on damaged equipment.

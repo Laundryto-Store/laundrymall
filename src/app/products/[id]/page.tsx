@@ -82,7 +82,7 @@ export default async function ProductDetailPage({
               <div className="bg-emerald-50 p-2 rounded-full"><Check className="w-4 h-4 text-emerald-600" /></div> In Stock
             </div>
             <div className="flex items-center gap-3">
-              <div className="bg-blue-50 p-2 rounded-full"><ShieldCheck className="w-4 h-4 text-blue-600" /></div> LaundryTO Quality
+              <div className="bg-blue-50 p-2 rounded-full"><ShieldCheck className="w-4 h-4 text-blue-600" /></div> LaundryMall Quality
             </div>
             <div className="flex items-center gap-3">
               <div className="bg-gray-50 p-2 rounded-full"><Truck className="w-4 h-4 text-gray-600" /></div> Dispatch in 48h
