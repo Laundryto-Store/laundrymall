@@ -2,27 +2,31 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Lock, Mail, Building, User, ArrowRight } from "lucide-react";
+import { Lock, Mail, User, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // TODO: Connect to Medusa Auth API
+    
+    // Mock successful registration for now
     setTimeout(() => {
       setIsLoading(false);
-      alert("Registration API will be connected here!");
-    }, 1500);
+      // Redirect to login with success message
+      router.push("/login?registered=true");
+    }, 1000);
   };
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center p-4 bg-gray-50 py-12">
       <div className="bg-white p-8 sm:p-12 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 w-full max-w-xl">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-black text-gray-900 tracking-tight mb-2">Partner with Us</h1>
-          <p className="text-gray-500 font-medium max-w-sm mx-auto">Create a B2B account to access wholesale pricing on enterprise laundry equipment.</p>
+          <h1 className="text-3xl font-black text-gray-900 tracking-tight mb-2">Create Account</h1>
+          <p className="text-gray-500 font-medium max-w-sm mx-auto">Join LaundryMall to access wholesale pricing and fast checkout.</p>
         </div>
 
         <form onSubmit={handleSignup} className="space-y-6">
@@ -48,18 +52,6 @@ export default function SignupPage() {
                   placeholder="Doe"
                 />
               </div>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">Company / Outlet Name</label>
-            <div className="relative">
-              <Building className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input 
-                type="text" required
-                className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium"
-                placeholder="LaundryMall Outlet #12"
-              />
             </div>
           </div>
 
@@ -96,7 +88,7 @@ export default function SignupPage() {
             {isLoading ? (
               <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
             ) : (
-              <>Submit Application <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></>
+              <>Create Account <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></>
             )}
           </button>
         </form>
