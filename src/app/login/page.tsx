@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useState, Suspense } from "react";
@@ -41,10 +41,22 @@ function LoginForm() {
     }
   };
 
-  const handleGoogleAuth = () => {
-    // Redirect directly to the Medusa backend's OAuth entry point
-    // Medusa will redirect to Google, and after successful login, it will redirect back to the frontend.
-    window.location.href = \\/auth/customer/google\;
+  const handleGoogleAuth = async () => {
+    try {
+      setIsLoading(true);
+      const { getGoogleAuthUrl } = await import("@/app/actions/auth");
+      const result = await getGoogleAuthUrl();
+      if (result?.location) {
+        window.location.href = result.location;
+      } else {
+        setError("Failed to connect to Google Auth provider.");
+        setIsLoading(false);
+      }
+    } catch (err) {
+      console.error("Failed to initiate Google Auth", err);
+      setError("An unexpected error occurred.");
+      setIsLoading(false);
+    }
   };
 
   return (

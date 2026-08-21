@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useState } from "react";
@@ -30,8 +30,22 @@ export default function SignupPage() {
     }
   };
 
-  const handleGoogleAuth = () => {
-    window.location.href = \\/auth/customer/google\;
+  const handleGoogleAuth = async () => {
+    try {
+      setIsLoading(true);
+      const { getGoogleAuthUrl } = await import("@/app/actions/auth");
+      const result = await getGoogleAuthUrl();
+      if (result?.location) {
+        window.location.href = result.location;
+      } else {
+        setError("Failed to connect to Google Auth provider.");
+        setIsLoading(false);
+      }
+    } catch (err) {
+      console.error("Failed to initiate Google Auth", err);
+      setError("An unexpected error occurred.");
+      setIsLoading(false);
+    }
   };
 
   return (

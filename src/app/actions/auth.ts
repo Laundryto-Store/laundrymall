@@ -168,3 +168,22 @@ export async function getCustomer() {
     return null;
   }
 }
+
+export async function getGoogleAuthUrl() {
+  try {
+    const res = await fetch(MEDUSA_URL + "/auth/customer/google", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      },
+      cache: "no-store"
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return { location: data.location };
+    }
+    return { error: "Failed to fetch auth URL" };
+  } catch (error) {
+    return { error: "Network error" };
+  }
+}
