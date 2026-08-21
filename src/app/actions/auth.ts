@@ -2,9 +2,23 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { z } from "zod";
 
 const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "https://backend-production-3a66.up.railway.app";
 const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
+
+// Phase 0: Enterprise Hardening - Zod Schemas
+const LoginSchema = z.object({
+  email: z.string().email("Please provide a valid email address").toLowerCase().trim(),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
+const SignupSchema = z.object({
+  first_name: z.string().min(1, "First name is required").trim(),
+  last_name: z.string().min(1, "Last name is required").trim(),
+  email: z.string().email("Please provide a valid email address").toLowerCase().trim(),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
 
 const getHeaders = (token?: string) => {
   const headers: Record<string, string> = {
@@ -20,8 +34,17 @@ const getHeaders = (token?: string) => {
 };
 
 export async function loginAction(formData: FormData) {
-  const email = (formData.get("email") as string).toLowerCase().trim();
-  const password = formData.get("password") as string;
+  // 1. Zod Validation
+  const parsed = LoginSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+
+  if (!parsed.success) {
+    return { error: parsed.error.errors[0].message };
+  }
+
+  const { email, password } = parsed.data;
 
   try {
     const res = await fetch(MEDUSA_URL + "/auth/customer/emailpass", {
@@ -56,10 +79,19 @@ export async function loginAction(formData: FormData) {
 }
 
 export async function signupAction(formData: FormData) {
-  const email = (formData.get("email") as string).toLowerCase().trim();
-  const password = formData.get("password") as string;
-  const firstName = formData.get("first_name") as string;
-  const lastName = formData.get("last_name") as string;
+  // 1. Zod Validation
+  const parsed = SignupSchema.safeParse({
+    first_name: formData.get("first_name"),
+    last_name: formData.get("last_name"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+
+  if (!parsed.success) {
+    return { error: parsed.error.errors[0].message };
+  }
+
+  const { email, password, first_name, last_name } = parsed.data;
 
   try {
     const authRes = await fetch(MEDUSA_URL + "/auth/customer/emailpass/register", {
@@ -92,7 +124,7 @@ export async function signupAction(formData: FormData) {
     const customerRes = await fetch(MEDUSA_URL + "/store/customers", {
       method: "POST",
       headers: getHeaders(token),
-      body: JSON.stringify({ email, first_name: firstName, last_name: lastName }),
+      body: JSON.stringify({ email, first_name, last_name }),
     });
 
     if (!customerRes.ok) {
