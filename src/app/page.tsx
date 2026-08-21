@@ -1,139 +1,133 @@
-﻿import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Sparkles, Box, Shield, Zap } from "lucide-react";
+import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
-import { getCachedFrontendProducts } from "@/lib/medusa-cache";
+import { ArrowRight } from "lucide-react";
+import { getCachedCollections, getCachedFrontendProducts } from "@/lib/medusa-cache";
 
 export default async function Home() {
   const products = await getCachedFrontendProducts();
-  const featuredProducts = products.slice(0, 4);
+  const collections = await getCachedCollections();
+  
+  const newArrivals = products.slice(0, 4);
+  const specialDeals = products.slice(4, 8);
 
   return (
-    <div className="flex flex-col min-h-screen bg-black text-white selection:bg-white selection:text-black font-sans overflow-hidden">
-      
-      {/* Background Effects */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        {/* Subtle Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
-        {/* Radial Glow */}
-        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[1000px] h-[600px] opacity-30 blur-[120px] bg-gradient-to-b from-blue-500/40 to-purple-500/10 rounded-full"></div>
-      </div>
-
-      {/* Cinematic Hero Section */}
-      <section className="relative z-10 w-full min-h-[95vh] flex flex-col items-center justify-center pt-32 pb-16 px-4">
-        
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl mb-12 shadow-[0_0_20px_rgba(255,255,255,0.05)]">
-          <Sparkles className="w-4 h-4 text-gray-400" />
-          <span className="text-sm font-medium tracking-wide text-gray-300 uppercase">The New Standard in B2B</span>
+    <div className="flex flex-col gap-16 pb-12">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-white">
+        {/* Decorative Background Blobs */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+          <div className="absolute -top-[20%] -right-[10%] w-[70%] h-[70%] rounded-full bg-blue-50/80 blur-3xl" />
+          <div className="absolute top-[40%] -left-[10%] w-[50%] h-[50%] rounded-full bg-blue-100/50 blur-3xl" />
         </div>
 
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-center tracking-tighter leading-[0.9] mb-8">
-          <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/40">
-            Enterprise
-          </span>
-          <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
-            Equipment.
-          </span>
-        </h1>
-
-        <p className="text-xl md:text-2xl text-gray-400 max-w-3xl text-center mb-12 font-light tracking-wide leading-relaxed">
-          Procure industrial-grade laundry machinery and chemical supplies with zero friction. Built for the modern franchise.
-        </p>
-
-        <div className="flex flex-col sm:flex-row items-center gap-6">
-          <Link 
-            href="/products" 
-            className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-black bg-white rounded-full overflow-hidden transition-transform hover:scale-105 active:scale-95"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-gray-200 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <span className="relative flex items-center gap-2">
-              Explore Catalog <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </span>
-          </Link>
-          <Link 
-            href="/signup" 
-            className="px-8 py-4 font-bold text-white bg-transparent border border-white/20 rounded-full hover:bg-white/10 transition-colors"
-          >
-            Partner With Us
-          </Link>
-        </div>
-
-        {/* 4K Cinematic Image Showcase */}
-        <div className="w-full max-w-6xl mx-auto mt-24 relative perspective-1000">
-          <div className="relative w-full aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_100px_rgba(59,130,246,0.15)] transform rotate-x-2 hover:rotate-x-0 transition-transform duration-1000 ease-out">
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10"></div>
-            <Image
-              src="/media_1787203910799.png"
-              alt="4K Laundry Equipment Showcase"
-              fill
-              className="object-cover scale-105 hover:scale-100 transition-transform duration-1000 ease-out"
-              priority
-              quality={100}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Linear-Style Features */}
-      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 border-t border-white/5">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">Precision engineered logistics.</h2>
-          <p className="text-xl text-gray-500">Everything you need to scale your operations, delivered instantly.</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
-            <Zap className="w-10 h-10 text-blue-400 mb-6" />
-            <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">Hyperspeed Delivery</h3>
-            <p className="text-gray-400 leading-relaxed font-light">Automated dispatch systems ensure your machinery and chemicals arrive before you ever run out.</p>
-          </div>
-          <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
-            <Shield className="w-10 h-10 text-indigo-400 mb-6" />
-            <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">ISO-9001 Certified</h3>
-            <p className="text-gray-400 leading-relaxed font-light">Every chemical barrel and heavy-duty machine is rigorously tested for enterprise compliance.</p>
-          </div>
-          <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
-            <Box className="w-10 h-10 text-purple-400 mb-6" />
-            <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">Wholesale Tiering</h3>
-            <p className="text-gray-400 leading-relaxed font-light">Dynamic algorithmic pricing guarantees you the absolute lowest cost at maximum volume.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Dark Mode Product Grid Override */}
-      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
-        <div className="flex justify-between items-end mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white">Trending Supplies</h2>
-          <Link href="/products" className="hidden sm:flex items-center gap-2 text-gray-400 font-bold hover:text-white transition-colors group">
-            View full catalog <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredProducts.map((product) => (
-            <div key={product.id} className="group relative bg-white/[0.03] border border-white/10 rounded-3xl p-4 hover:bg-white/[0.08] transition-colors duration-500">
-              <Link href={/products/ + product.id} className="block relative aspect-square w-full rounded-2xl overflow-hidden mb-6 bg-white">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover mix-blend-multiply group-hover:scale-110 transition-transform duration-700 ease-out"
-                  quality={90}
-                />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 md:pt-28 md:pb-32 flex flex-col md:flex-row items-center gap-16 relative z-10">
+          
+          {/* Left Text Content */}
+          <div className="md:w-1/2 flex flex-col items-start text-left">
+            <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 text-blue-700 font-bold px-4 py-2 rounded-full text-xs tracking-wider uppercase mb-6 shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+              India&apos;s #1 B2B Laundry Store
+            </div>
+            
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 leading-[1.1] mb-6 tracking-tight">
+              Premium <br />
+              <span className="text-blue-600 relative">
+                Laundry Care
+                <svg className="absolute w-full h-4 -bottom-1 left-0 text-blue-200 -z-10" viewBox="0 0 100 20" preserveAspectRatio="none"><path d="M0 15 Q 50 0 100 15 L 100 20 L 0 20 Z" fill="currentColor"></path></svg>
+              </span><br />
+              Equipment.
+            </h1>
+            
+            <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-lg leading-relaxed font-light">
+              Equip your business with enterprise-grade hangers, eco-friendly chemicals, and heavy-duty machinery. Standardized quality for all your outlets.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+              <Link href="/products" className="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-[0_8px_30px_rgb(59,130,246,0.3)] hover:shadow-[0_8px_30px_rgb(59,130,246,0.5)] hover:-translate-y-1 text-center flex items-center justify-center gap-2">
+                Explore Catalog <ArrowRight className="w-5 h-5" />
               </Link>
-              <div className="px-2 pb-2">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-bold text-white line-clamp-1">{product.name}</h3>
+              <Link href="/contact" className="bg-white text-gray-800 border border-gray-200 px-8 py-4 rounded-xl font-bold hover:border-gray-300 hover:bg-gray-50 transition-all text-center">
+                Contact Sales
+              </Link>
+            </div>
+          </div>
+
+          {/* Right Image Content */}
+          <div className="md:w-1/2 w-full relative">
+            <div className="relative h-[400px] md:h-[600px] w-full rounded-[2rem] overflow-hidden shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent z-10"></div>
+              <Image
+                src="https://images.unsplash.com/photo-1582735689369-4fe89db7114c?q=80&w=1200&auto=format&fit=crop"
+                alt="Premium Dry Cleaning Storefront"
+                fill
+                className="object-cover hover:scale-105 transition-transform duration-1000"
+                priority
+              />
+              <div className="absolute bottom-8 left-8 z-20 text-white">
+                <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-lg border border-white/30 inline-block mb-3">
+                  <span className="font-semibold tracking-wide">✓ Standardized Quality</span>
                 </div>
-                <div className="flex justify-between items-center mt-4">
-                  <span className="text-xl font-light text-gray-300">₹{product.price.toFixed(2)}</span>
-                  <Link href={/products/ + product.id} className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform">
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
+                <h3 className="text-2xl font-bold">LaundryMall Excellence</h3>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Categories Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-8">
+        <div className="flex justify-between items-end mb-8">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Shop by Category</h2>
+            <p className="text-gray-500 mt-2">Explore our premium selection of franchise supplies.</p>
+          </div>
+          <Link href="/products" className="text-blue-600 font-bold hover:text-blue-700 hover:underline flex items-center gap-1 transition-colors">
+            View All Categories <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {collections.slice(0, 8).map((collection) => (
+            <Link 
+              key={collection.id} 
+              href={`/products?category=` + encodeURIComponent(collection.title)}
+              className="bg-white border border-gray-100 rounded-2xl p-8 text-center hover:border-blue-200 hover:shadow-[0_8px_30px_rgb(59,130,246,0.12)] hover:-translate-y-1 transition-all group"
+            >
+              <div className="w-12 h-12 mx-auto bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+              </div>
+              <h3 className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{collection.title}</h3>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Best Sellers */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-16">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="bg-red-100 text-red-600 p-2 rounded-lg">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+          </div>
+          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Best Sellers</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          {specialDeals.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </section>
+
+      {/* New Arrivals */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-16 pb-8">
+        <div className="flex justify-between items-end mb-8">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">New Arrivals</h2>
+            <p className="text-gray-500 mt-2">The latest equipment added to our catalog.</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          {newArrivals.map((product) => (
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </section>

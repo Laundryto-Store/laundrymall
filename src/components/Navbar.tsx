@@ -1,97 +1,118 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart, Search, User, Menu, LogOut, Package } from "lucide-react";
+import { ShoppingCart, Search, User, Menu, LogOut } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const { setIsOpen, itemCount } = useCartStore();
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const [mounted, setMounted] = useState(false);
-  const pathname = usePathname();
-  
-  const isDark = pathname === "/";
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
   return (
-    <header className="fixed top-6 left-0 right-0 z-50 px-4 pointer-events-none">
-      <nav className={`pointer-events-auto max-w-6xl mx-auto backdrop-blur-2xl border shadow-2xl rounded-full px-6 py-3 flex items-center justify-between transition-colors duration-500 ${isDark ? 'bg-black/40 border-white/10 text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)]' : 'bg-white/80 border-gray-200 shadow-[0_8px_32px_rgba(0,0,0,0.06)]'}`}>
-        
-        {/* Left: Logo */}
-        <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${isDark ? 'bg-white shadow-[0_0_15px_rgba(255,255,255,0.4)]' : 'bg-blue-600 shadow-[0_0_15px_rgba(37,99,235,0.4)]'} group-hover:scale-105`}>
-              <Package className={`w-4 h-4 ${isDark ? 'text-black' : 'text-white'}`} />
+    <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 shadow-sm transition-all">
+      {/* Top bar */}
+      <div className="bg-blue-600 text-white text-sm py-2 px-4 flex justify-between items-center">
+        <div className="font-medium tracking-wide">
+          {mounted && user ? `Welcome back, ${user.first_name}!` : "Welcome to LaundryMall"}
+        </div>
+        <div className="flex gap-4 font-medium">
+          {mounted && user ? (
+            <button onClick={logout} className="hover:text-blue-100 transition flex items-center gap-1">
+              <LogOut className="w-3 h-3" /> Logout
+            </button>
+          ) : (
+            <>
+              <Link href="/login" className="hover:text-blue-100 transition">Login</Link>
+              <Link href="/signup" className="hover:text-blue-100 transition">Signup</Link>
+            </>
+          )}
+        </div>
+      </div>
+      
+      {/* Main Navbar */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          <div className="flex items-center gap-4">
+            <button className="sm:hidden text-gray-500 hover:text-blue-600 transition">
+              <Menu className="w-6 h-6" />
+            </button>
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center gap-2 group">
+                <span className="text-3xl font-black tracking-tighter text-blue-600 group-hover:text-blue-700 transition-colors">
+                  Laundry<span className="text-gray-900">Mall</span>
+                </span>
+              </Link>
             </div>
-            <span className={`text-xl font-black tracking-tighter transition-colors ${isDark ? 'text-white group-hover:text-gray-300' : 'text-gray-900 group-hover:text-blue-600'}`}>
-              Laundry<span className={isDark ? 'text-gray-400' : 'text-blue-600'}>Mall</span>
-            </span>
-          </Link>
+          </div>
           
-          {/* Desktop Links */}
-          <div className={`hidden md:flex items-center gap-6 text-sm font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-            <Link href="/products" className={`transition-colors ${isDark ? 'hover:text-white' : 'hover:text-gray-900'}`}>Shop</Link>
-            <Link href={'/products?category=Machinery'} className={`transition-colors ${isDark ? 'hover:text-white' : 'hover:text-gray-900'}`}>Machinery</Link>
-            <Link href={'/products?category=Detergent%20Chemicals'} className={`transition-colors ${isDark ? 'hover:text-white' : 'hover:text-gray-900'}`}>Chemicals</Link>
+          {/* Desktop Search */}
+          <div className="hidden sm:flex flex-1 max-w-xl px-12">
+            <form 
+              className="relative w-full group"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const search = formData.get("search") as string;
+                if (search.trim()) {
+                  window.location.href = `/products?search=${encodeURIComponent(search.trim())}`;
+                }
+              }}
+            >
+              <input
+                type="text"
+                name="search"
+                placeholder="Search products..."
+                className="w-full border-2 border-gray-200 rounded-full py-2.5 px-6 focus:outline-none focus:border-blue-500 transition shadow-sm"
+              />
+              <button type="submit" className="absolute right-2 top-1.5 bottom-1.5 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition">
+                <Search className="w-4 h-4" />
+              </button>
+            </form>
+          </div>
+          
+          <div className="flex items-center gap-8">
+            <Link href={mounted && user ? "/account" : "/login"} className="text-gray-600 hover:text-blue-600 flex flex-col items-center gap-1 transition">
+              <User className="w-6 h-6" />
+              <span className="text-xs font-medium hidden sm:block">{mounted && user ? "Account" : "Sign In"}</span>
+            </Link>
+            <button 
+              onClick={() => setIsOpen(true)}
+              className="text-gray-600 hover:text-blue-600 flex flex-col items-center gap-1 transition relative group"
+            >
+              <ShoppingCart className="w-6 h-6 group-hover:scale-110 transition-transform" />
+              <span className="text-xs font-medium hidden sm:block">Cart</span>
+              {mounted && itemCount() > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold border-2 border-white">
+                  {itemCount()}
+                </span>
+              )}
+            </button>
           </div>
         </div>
-
-        {/* Center: Search */}
-        <div className="hidden lg:block flex-1 max-w-sm mx-8">
-          <form 
-            onSubmit={(e) => {
-              e.preventDefault();
-              const formData = new FormData(e.currentTarget);
-              const search = formData.get("search");
-              if (search && typeof search === 'string' && search.trim()) window.location.href = '/products?search=' + encodeURIComponent(search.trim());
-            }}
-            className="relative group"
-          >
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className={`h-4 w-4 transition-colors ${isDark ? 'text-gray-400 group-focus-within:text-white' : 'text-gray-400 group-focus-within:text-blue-500'}`} />
-            </div>
-            <input
-              name="search"
-              type="text"
-              className={`block w-full pl-10 pr-3 py-2 rounded-full leading-5 focus:outline-none transition-all sm:text-sm font-medium ${isDark ? 'bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:bg-white/10 focus:border-white/30' : 'bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500'}`}
-              placeholder="Search products..."
-            />
-          </form>
+      </div>
+      
+      {/* Categories Bar */}
+      <div className="hidden sm:block border-t border-gray-100 bg-gray-50/80 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ul className="flex space-x-8 py-3 text-sm font-semibold text-gray-600 overflow-x-auto whitespace-nowrap hide-scrollbar">
+            <li><Link href="/" className="hover:text-blue-600 transition">Home</Link></li>
+            <li><Link href="/products" className="hover:text-blue-600 transition">All Products</Link></li>
+            <li><Link href="/products?category=Machinery" className="hover:text-blue-600 transition">Machinery</Link></li>
+            <li><Link href="/products?category=Detergent%20Chemicals" className="hover:text-blue-600 transition">Chemicals</Link></li>
+            <li><Link href="/products?category=Packaging%20Materials" className="hover:text-blue-600 transition">Packaging</Link></li>
+            <li><Link href="/products?category=Accessories" className="hover:text-blue-600 transition">Accessories</Link></li>
+            <li><Link href="/products?category=Technology" className="hover:text-blue-600 transition">Technology</Link></li>
+          </ul>
         </div>
-
-        {/* Right: Actions */}
-        <div className="flex items-center gap-3">
-          <Link 
-            href={mounted && user ? "/account" : "/login"} 
-            className={`hidden sm:flex items-center gap-2 px-4 py-2 rounded-full transition-colors text-sm font-bold ${isDark ? 'hover:bg-white/10 text-gray-300 hover:text-white' : 'hover:bg-gray-100 text-gray-700'}`}
-          >
-            <User className="w-4 h-4" />
-            <span>{mounted && user ? user.first_name : "Sign In"}</span>
-          </Link>
-          
-          <button 
-            onClick={() => setIsOpen(true)}
-            className={`relative p-2.5 rounded-full transition-transform hover:scale-105 active:scale-95 flex items-center justify-center ${isDark ? 'bg-white text-black hover:bg-gray-200 shadow-[0_0_20px_rgba(255,255,255,0.2)]' : 'bg-gray-900 text-white hover:bg-gray-800 shadow-[0_4px_14px_rgba(0,0,0,0.15)]'}`}
-          >
-            <ShoppingCart className="w-4 h-4" />
-            {mounted && itemCount() > 0 && (
-              <span className={`absolute -top-1 -right-1 text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold border-2 ${isDark ? 'bg-red-500 text-white border-white' : 'bg-blue-500 text-white border-gray-900'}`}>
-                {itemCount()}
-              </span>
-            )}
-          </button>
-
-          <button className={`sm:hidden p-2 ${isDark ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'}`}>
-            <Menu className="w-5 h-5" />
-          </button>
-        </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
   );
 }
