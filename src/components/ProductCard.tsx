@@ -1,58 +1,49 @@
-"use client";
-
-import { Product } from "@/data/products";
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
-import { useCartStore } from "@/store/cartStore";
+import { Product } from "@/data/products";
+import AddToCartButton from "./AddToCartButton";
 
 export default function ProductCard({ product }: { product: Product }) {
-  const { addItem } = useCartStore();
-
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent navigating to the product page
-    addItem(product, 1);
-  };
+  const price = product.price;
 
   return (
-    <Link href={`/products/${product.id}`} className="group bg-white rounded-2xl overflow-hidden hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col h-full border border-gray-100 hover:border-blue-100 relative">
-      <div className="relative aspect-[4/3] bg-gray-50 overflow-hidden p-4 flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-        {product.originalPrice && (
-          <div className="absolute top-4 left-4 bg-red-500 text-white text-[10px] font-black tracking-widest uppercase px-3 py-1.5 rounded-full z-20 shadow-sm">
-            Sale
-          </div>
-        )}
+    <div className="group flex flex-col bg-white rounded-3xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] overflow-hidden">
+      <Link href={'/products/' + product.id} className="relative aspect-square w-full bg-[#f4f4f5] overflow-hidden rounded-t-3xl">
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/10 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
         <Image
           src={product.image}
           alt={product.name}
           fill
-          className="object-contain p-4 group-hover:scale-110 transition-transform duration-700 ease-out"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+          className="object-cover mix-blend-multiply group-hover:scale-110 transition-transform duration-700 ease-out"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-      </div>
-      <div className="p-6 flex flex-col flex-grow bg-white z-20">
-        <div className="flex justify-between items-start mb-2">
-          <div className="text-[10px] text-blue-600 font-bold tracking-widest uppercase bg-blue-50 px-2 py-1 rounded-md">{product.category}</div>
-        </div>
-        <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 leading-snug group-hover:text-blue-600 transition-colors text-lg">{product.name}</h3>
-        
-        <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-50">
-          <div className="flex flex-col">
-            {product.originalPrice && (
-              <span className="text-xs text-gray-400 line-through">Rs. {product.originalPrice.toFixed(2)}</span>
-            )}
-            <span className="text-xl font-black text-gray-900">₹{product.price.toFixed(2)}</span>
+        {product.category && (
+          <div className="absolute top-4 left-4 z-20">
+            <span className="bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm tracking-wide uppercase">
+              {product.category}
+            </span>
           </div>
-          <button 
-            onClick={handleAddToCart}
-            className="bg-gray-50 hover:bg-blue-600 hover:text-white text-gray-900 p-3 rounded-xl transition-all duration-300 shadow-sm hover:shadow-blue-600/30 group-hover:rotate-12"
-            aria-label="Add to cart"
-          >
-            <ShoppingCart className="w-5 h-5" />
-          </button>
+        )}
+      </Link>
+      
+      <div className="p-6 flex flex-col flex-1 border border-t-0 border-gray-100 rounded-b-3xl">
+        <div className="flex justify-between items-start mb-3 gap-2">
+          <Link href={'/products/' + product.id} className="group-hover:text-blue-600 transition-colors">
+            <h3 className="text-lg font-bold text-gray-900 leading-tight line-clamp-2">{product.name}</h3>
+          </Link>
+          <span className="text-lg font-black text-gray-900 tracking-tight shrink-0">
+            ₹{price.toFixed(2)}
+          </span>
+        </div>
+        
+        <p className="text-sm text-gray-500 line-clamp-2 mb-6 font-medium leading-relaxed">
+          {product.description}
+        </p>
+        
+        <div className="mt-auto pt-4 border-t border-gray-50">
+          <AddToCartButton product={product} />
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
