@@ -27,7 +27,7 @@ export default async function Home() {
           <div className="md:w-1/2 flex flex-col items-start text-left">
             <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 text-blue-700 font-bold px-4 py-2 rounded-full text-xs tracking-wider uppercase mb-6 shadow-sm">
               <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-              India's #1 B2B Laundry Store
+              India&apos;s #1 B2B Laundry Store
             </div>
             
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 leading-[1.1] mb-6 tracking-tight">

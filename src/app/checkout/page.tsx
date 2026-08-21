@@ -4,7 +4,7 @@ import { useCartStore } from "@/store/cartStore";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CheckCircle, Lock, ShieldCheck, ChevronRight, ShoppingBag } from "lucide-react";
+import { CheckCircle, Lock, ShieldCheck, ChevronRight, ShoppingBag, X } from "lucide-react";
 import { processCheckoutOnServer } from "../actions";
 
 export default function CheckoutPage() {
@@ -206,7 +206,9 @@ export default function CheckoutPage() {
               <button 
                 type="submit" 
                 disabled={status === "loading"}
-                className={w-full bg-blue-600 text-white font-bold py-5 rounded-xl transition-all shadow-[0_8px_30px_rgb(59,130,246,0.3)] hover:shadow-[0_8px_30px_rgb(59,130,246,0.5)] hover:-translate-y-1 flex items-center justify-center gap-3 text-lg }
+                className={`w-full bg-blue-600 text-white font-bold py-5 rounded-xl transition-all shadow-[0_8px_30px_rgb(59,130,246,0.3)] hover:shadow-[0_8px_30px_rgb(59,130,246,0.5)] hover:-translate-y-1 flex items-center justify-center gap-3 text-lg ${
+                  status === "loading" ? "opacity-70 cursor-not-allowed" : ""
+                }`}
               >
                 {status === "loading" ? (
                   <>
