@@ -4,21 +4,28 @@ import Link from "next/link";
 import { useState } from "react";
 import { Lock, Mail, User, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { signupAction } from "@/app/actions/auth";
 
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
     
-    // Mock successful registration for now
-    setTimeout(() => {
-      setIsLoading(false);
-      // Redirect to login with success message
+    const formData = new FormData(e.currentTarget);
+    const result = await signupAction(formData);
+
+    setIsLoading(false);
+
+    if (result?.error) {
+      setError(result.error);
+    } else if (result?.success) {
       router.push("/login?registered=true");
-    }, 1000);
+    }
   };
 
   return (
@@ -29,6 +36,12 @@ export default function SignupPage() {
           <p className="text-gray-500 font-medium max-w-sm mx-auto">Join LaundryMall to access wholesale pricing and fast checkout.</p>
         </div>
 
+        {error && (
+          <div className="mb-6 bg-red-50 text-red-600 p-4 rounded-xl border border-red-100 text-sm font-medium">
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSignup} className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
@@ -36,7 +49,7 @@ export default function SignupPage() {
               <div className="relative">
                 <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input 
-                  type="text" required
+                  type="text" name="first_name" required
                   className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium"
                   placeholder="John"
                 />
@@ -47,7 +60,7 @@ export default function SignupPage() {
               <div className="relative">
                 <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input 
-                  type="text" required
+                  type="text" name="last_name" required
                   className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium"
                   placeholder="Doe"
                 />
@@ -60,7 +73,7 @@ export default function SignupPage() {
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input 
-                type="email" required
+                type="email" name="email" required
                 className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium"
                 placeholder="store@example.com"
               />
@@ -72,7 +85,7 @@ export default function SignupPage() {
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input 
-                type="password" required minLength={8}
+                type="password" name="password" required minLength={8}
                 className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium"
                 placeholder="••••••••"
               />
@@ -83,7 +96,7 @@ export default function SignupPage() {
           <button 
             type="submit"
             disabled={isLoading}
-            className="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition-all shadow-[0_8px_30px_rgb(59,130,246,0.3)] hover:-translate-y-1 flex items-center justify-center gap-2 group mt-8"
+            className="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition-all shadow-[0_8px_30px_rgb(59,130,246,0.3)] hover:-translate-y-1 flex items-center justify-center gap-2 group mt-8 disabled:opacity-70 disabled:hover:translate-y-0"
           >
             {isLoading ? (
               <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>

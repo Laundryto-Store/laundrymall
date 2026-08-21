@@ -1,28 +1,49 @@
-"use client";
+﻿"use client";
 
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Package, User, MapPin, Settings, LogOut, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { getCustomer, logoutAction } from "@/app/actions/auth";
 
 export default function AccountPage() {
-  const { user, logout } = useAuthStore();
+  const { user: cachedUser, login, logout } = useAuthStore();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setMounted(true);
-    if (mounted && !user) {
-      router.push("/login");
-    }
-  }, [user, mounted, router]);
+    
+    // Fetch real customer data from backend
+    getCustomer().then((customer) => {
+      if (customer) {
+        login(customer); // Update Zustand cache with real data
+      } else {
+        // Token invalid or not logged in
+        logout();
+        router.push("/login");
+      }
+      setIsLoading(false);
+    }).catch(() => {
+      setIsLoading(false);
+    });
+  }, [login, logout, router]);
 
-  if (!mounted || !user) return null;
+  if (!mounted || isLoading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-gray-200 border-t-blue-600 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
-  const handleLogout = () => {
+  if (!cachedUser) return null;
+
+  const handleLogout = async () => {
     logout();
-    router.push("/");
+    await logoutAction();
   };
 
   return (
@@ -44,11 +65,11 @@ export default function AccountPage() {
         {/* Sidebar */}
         <div className="space-y-2">
           <div className="bg-blue-50 border border-blue-100 rounded-xl p-5 mb-6">
-            <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mb-3 shadow-sm">
-              {user.first_name.charAt(0)}{user.last_name.charAt(0)}
+            <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mb-3 shadow-sm uppercase">
+              {cachedUser.first_name?.charAt(0) || "C"}
             </div>
-            <h2 className="font-bold text-gray-900 text-lg">{user.first_name} {user.last_name}</h2>
-            <p className="text-gray-500 text-sm">{user.email}</p>
+            <h2 className="font-bold text-gray-900 text-lg">{cachedUser.first_name} {cachedUser.last_name}</h2>
+            <p className="text-gray-500 text-sm">{cachedUser.email}</p>
           </div>
           
           <nav className="flex flex-col space-y-1">

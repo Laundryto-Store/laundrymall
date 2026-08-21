@@ -5,6 +5,7 @@ import { ShoppingCart, Search, User, Menu, LogOut } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect, useState } from "react";
+import { logoutAction } from "@/app/actions/auth";
 
 export default function Navbar() {
   const { setIsOpen, itemCount } = useCartStore();
@@ -16,16 +17,21 @@ export default function Navbar() {
     setMounted(true);
   }, []);
 
+  const handleLogout = async () => {
+    logout();
+    await logoutAction();
+  };
+
   return (
     <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 shadow-sm transition-all">
       {/* Top bar */}
       <div className="bg-blue-600 text-white text-sm py-2 px-4 flex justify-between items-center">
         <div className="font-medium tracking-wide">
-          {mounted && user ? `Welcome back, ${user.first_name}!` : "Welcome to LaundryMall"}
+          {mounted && user ? `Welcome back, ${user.first_name || 'Customer'}!` : "Welcome to LaundryMall"}
         </div>
         <div className="flex gap-4 font-medium">
           {mounted && user ? (
-            <button onClick={logout} className="hover:text-blue-100 transition flex items-center gap-1">
+            <button onClick={handleLogout} className="hover:text-blue-100 transition flex items-center gap-1">
               <LogOut className="w-3 h-3" /> Logout
             </button>
           ) : (

@@ -1,36 +1,46 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useState, Suspense } from "react";
 import { Lock, Mail, ArrowRight, CheckCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
+import { loginAction } from "@/app/actions/auth";
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   const justRegistered = searchParams.get("registered") === "true";
-
+  
   const { login } = useAuthStore();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
     
-    // Mock authentication with backend
-    setTimeout(() => {
+    const formData = new FormData(e.currentTarget);
+    const result = await loginAction(formData);
+
+    if (result?.error) {
+      setError(result.error);
+      setIsLoading(false);
+    } else if (result?.success) {
+      // Optimistically update the UI to show logged in state
+      // We don't have the exact user details yet without another fetch,
+      // but we can set a placeholder or fetch them.
+      // The account page will fetch the real details on load anyway.
       login({
-        id: "cus_mock123",
-        first_name: "Franchise",
-        last_name: "Owner",
-        email: email
+        id: "loading",
+        first_name: "Customer",
+        last_name: "",
+        email: formData.get("email") as string,
       });
       setIsLoading(false);
       router.push("/account");
-    }, 1000);
+    }
   };
 
   return (
@@ -41,6 +51,12 @@ function LoginForm() {
           <p className="font-medium text-sm">Account created successfully! Please sign in.</p>
         </div>
       )}
+
+      {error && (
+        <div className="mb-6 bg-red-50 text-red-600 p-4 rounded-xl border border-red-100 text-sm font-medium">
+          {error}
+        </div>
+      )}
       
       <form onSubmit={handleLogin} className="space-y-6">
         <div>
@@ -48,10 +64,7 @@ function LoginForm() {
           <div className="relative">
             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input 
-              type="email" 
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="email" name="email" required
               className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium"
               placeholder="store@example.com"
             />
@@ -63,10 +76,7 @@ function LoginForm() {
           <div className="relative">
             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input 
-              type="password" 
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              type="password" name="password" required
               className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium"
               placeholder="••••••••"
             />
@@ -86,7 +96,7 @@ function LoginForm() {
         <button 
           type="submit"
           disabled={isLoading}
-          className="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition-all shadow-[0_8px_30px_rgb(59,130,246,0.3)] hover:-translate-y-1 flex items-center justify-center gap-2 group"
+          className="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition-all shadow-[0_8px_30px_rgb(59,130,246,0.3)] hover:-translate-y-1 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:hover:translate-y-0"
         >
           {isLoading ? (
             <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
