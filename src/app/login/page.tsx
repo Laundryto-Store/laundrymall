@@ -1,9 +1,10 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useState, Suspense } from "react";
 import { Lock, Mail, ArrowRight, CheckCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useAuthStore } from "@/store/authStore";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -13,14 +14,22 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const justRegistered = searchParams.get("registered") === "true";
 
+  const { login } = useAuthStore();
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Mock successful login
+    // Mock authentication with backend
     setTimeout(() => {
+      login({
+        id: "cus_mock123",
+        first_name: "Franchise",
+        last_name: "Owner",
+        email: email
+      });
       setIsLoading(false);
-      router.push("/");
+      router.push("/account");
     }, 1000);
   };
 

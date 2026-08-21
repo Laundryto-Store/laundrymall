@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart, Search, User, Menu } from "lucide-react";
+import { ShoppingCart, Search, User, Menu, LogOut } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
+import { useAuthStore } from "@/store/authStore";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const { setIsOpen, itemCount } = useCartStore();
+  const { user, logout } = useAuthStore();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -18,10 +20,20 @@ export default function Navbar() {
     <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 shadow-sm transition-all">
       {/* Top bar */}
       <div className="bg-blue-600 text-white text-sm py-2 px-4 flex justify-between items-center">
-        <div className="font-medium tracking-wide">Welcome to LaundryMall</div>
+        <div className="font-medium tracking-wide">
+          {mounted && user ? `Welcome back, ${user.first_name}!` : "Welcome to LaundryMall"}
+        </div>
         <div className="flex gap-4 font-medium">
-          <Link href="/login" className="hover:text-blue-100 transition">Login</Link>
-          <Link href="/signup" className="hover:text-blue-100 transition">Signup</Link>
+          {mounted && user ? (
+            <button onClick={logout} className="hover:text-blue-100 transition flex items-center gap-1">
+              <LogOut className="w-3 h-3" /> Logout
+            </button>
+          ) : (
+            <>
+              <Link href="/login" className="hover:text-blue-100 transition">Login</Link>
+              <Link href="/signup" className="hover:text-blue-100 transition">Signup</Link>
+            </>
+          )}
         </div>
       </div>
       
@@ -67,9 +79,9 @@ export default function Navbar() {
           </div>
           
           <div className="flex items-center gap-8">
-            <Link href="/login" className="text-gray-600 hover:text-blue-600 flex flex-col items-center gap-1 transition">
+            <Link href={mounted && user ? "/account" : "/login"} className="text-gray-600 hover:text-blue-600 flex flex-col items-center gap-1 transition">
               <User className="w-6 h-6" />
-              <span className="text-xs font-medium hidden sm:block">Account</span>
+              <span className="text-xs font-medium hidden sm:block">{mounted && user ? "Account" : "Sign In"}</span>
             </Link>
             <button 
               onClick={() => setIsOpen(true)}
