@@ -1,6 +1,6 @@
 ﻿import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Star, ShieldCheck, Zap, Package } from "lucide-react";
+import { ArrowRight, Sparkles, Box, Shield, Zap } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import { getCachedFrontendProducts } from "@/lib/medusa-cache";
 
@@ -9,121 +9,131 @@ export default async function Home() {
   const featuredProducts = products.slice(0, 4);
 
   return (
-    <div className="flex flex-col min-h-screen pt-24 bg-[#FAFAFA]">
-      {/* 2026 Hyper-Modern Hero Section */}
-      <section className="relative w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mt-4 mb-24">
-        <div className="relative rounded-[2.5rem] bg-gray-900 overflow-hidden shadow-2xl">
-          {/* Abstract glow / Mesh Gradient */}
-          <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-            <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[70%] bg-blue-600/30 blur-[120px] rounded-full mix-blend-screen"></div>
-            <div className="absolute top-[20%] -right-[10%] w-[40%] h-[60%] bg-indigo-500/20 blur-[100px] rounded-full mix-blend-screen"></div>
-          </div>
+    <div className="flex flex-col min-h-screen bg-black text-white selection:bg-white selection:text-black font-sans overflow-hidden">
+      
+      {/* Background Effects */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        {/* Subtle Grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+        {/* Radial Glow */}
+        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[1000px] h-[600px] opacity-30 blur-[120px] bg-gradient-to-b from-blue-500/40 to-purple-500/10 rounded-full"></div>
+      </div>
 
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[600px] p-8 lg:p-16">
-            <div className="lg:col-span-6 flex flex-col items-start">
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/10 text-white font-medium px-4 py-2 rounded-full text-xs tracking-wider uppercase mb-8 shadow-xl">
-                <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-                Next-Gen B2B Platform
-              </div>
-              
-              <h1 className="text-5xl md:text-7xl font-black text-white leading-[1.05] mb-6 tracking-tighter">
-                Procure <br className="hidden md:block"/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">Smarter.</span>
-              </h1>
-              
-              <p className="text-lg text-gray-300 mb-10 max-w-lg leading-relaxed font-medium">
-                The enterprise standard for wholesale laundry machinery, automated packaging, and sustainable chemical supplies.
-              </p>
-              
-              <div className="flex flex-wrap items-center gap-4">
-                <Link 
-                  href="/products" 
-                  className="bg-white text-gray-900 font-bold px-8 py-4 rounded-full hover:scale-105 hover:bg-gray-50 transition-all shadow-[0_0_40px_rgba(255,255,255,0.3)] flex items-center gap-2 group"
-                >
-                  Explore Catalog
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link 
-                  href="/signup" 
-                  className="bg-white/10 backdrop-blur-md text-white border border-white/20 font-bold px-8 py-4 rounded-full hover:bg-white/20 transition-all"
-                >
-                  Apply for Wholesale
-                </Link>
-              </div>
-            </div>
+      {/* Cinematic Hero Section */}
+      <section className="relative z-10 w-full min-h-[95vh] flex flex-col items-center justify-center pt-32 pb-16 px-4">
+        
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl mb-12 shadow-[0_0_20px_rgba(255,255,255,0.05)]">
+          <Sparkles className="w-4 h-4 text-gray-400" />
+          <span className="text-sm font-medium tracking-wide text-gray-300 uppercase">The New Standard in B2B</span>
+        </div>
 
-            <div className="lg:col-span-6 relative h-[400px] lg:h-[500px] w-full rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
-              <Image
-                src="/media_1787203910799.png"
-                alt="Modern Laundry Equipment"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                priority
-              />
-              {/* Glassmorphism Badge */}
-              <div className="absolute bottom-6 left-6 right-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4 flex items-center justify-between">
-                <div className="flex -space-x-3">
-                  {[1,2,3,4].map(i => (
-                    <div key={i} className="w-10 h-10 rounded-full bg-gray-200 border-2 border-gray-900 overflow-hidden relative">
-                      <Image src="/media_1787203910799.png" alt="User" fill className="object-cover" />
-                    </div>
-                  ))}
-                </div>
-                <div className="text-right">
-                  <div className="text-white font-bold text-lg">2,400+</div>
-                  <div className="text-gray-300 text-xs font-medium uppercase tracking-wider">Active Partners</div>
-                </div>
-              </div>
-            </div>
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-center tracking-tighter leading-[0.9] mb-8">
+          <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/40">
+            Enterprise
+          </span>
+          <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+            Equipment.
+          </span>
+        </h1>
+
+        <p className="text-xl md:text-2xl text-gray-400 max-w-3xl text-center mb-12 font-light tracking-wide leading-relaxed">
+          Procure industrial-grade laundry machinery and chemical supplies with zero friction. Built for the modern franchise.
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-center gap-6">
+          <Link 
+            href="/products" 
+            className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-black bg-white rounded-full overflow-hidden transition-transform hover:scale-105 active:scale-95"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-gray-200 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <span className="relative flex items-center gap-2">
+              Explore Catalog <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </span>
+          </Link>
+          <Link 
+            href="/signup" 
+            className="px-8 py-4 font-bold text-white bg-transparent border border-white/20 rounded-full hover:bg-white/10 transition-colors"
+          >
+            Partner With Us
+          </Link>
+        </div>
+
+        {/* 4K Cinematic Image Showcase */}
+        <div className="w-full max-w-6xl mx-auto mt-24 relative perspective-1000">
+          <div className="relative w-full aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_100px_rgba(59,130,246,0.15)] transform rotate-x-2 hover:rotate-x-0 transition-transform duration-1000 ease-out">
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10"></div>
+            <Image
+              src="/media_1787203910799.png"
+              alt="4K Laundry Equipment Showcase"
+              fill
+              className="object-cover scale-105 hover:scale-100 transition-transform duration-1000 ease-out"
+              priority
+              quality={100}
+            />
           </div>
         </div>
       </section>
 
-      {/* Bento Box Features */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-shadow flex flex-col justify-center items-center text-center group">
-            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <Zap className="w-8 h-8 text-blue-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Next-Day Freight</h3>
-            <p className="text-gray-500 font-medium leading-relaxed">Automated dispatch via our national warehouse network.</p>
-          </div>
-          
-          <div className="bg-gray-900 rounded-3xl p-8 border border-gray-800 shadow-xl flex flex-col justify-center items-center text-center text-white relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform relative z-10">
-              <ShieldCheck className="w-8 h-8 text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-white mb-2 relative z-10">Verified Quality</h3>
-            <p className="text-gray-400 font-medium leading-relaxed relative z-10">ISO-certified chemicals and heavy-duty machinery.</p>
-          </div>
+      {/* Linear-Style Features */}
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 border-t border-white/5">
+        <div className="text-center mb-20">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">Precision engineered logistics.</h2>
+          <p className="text-xl text-gray-500">Everything you need to scale your operations, delivered instantly.</p>
+        </div>
 
-          <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-shadow flex flex-col justify-center items-center text-center group">
-            <div className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <Package className="w-8 h-8 text-indigo-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Volume Pricing</h3>
-            <p className="text-gray-500 font-medium leading-relaxed">Dynamic tiered discounts automatically applied at checkout.</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
+            <Zap className="w-10 h-10 text-blue-400 mb-6" />
+            <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">Hyperspeed Delivery</h3>
+            <p className="text-gray-400 leading-relaxed font-light">Automated dispatch systems ensure your machinery and chemicals arrive before you ever run out.</p>
+          </div>
+          <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
+            <Shield className="w-10 h-10 text-indigo-400 mb-6" />
+            <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">ISO-9001 Certified</h3>
+            <p className="text-gray-400 leading-relaxed font-light">Every chemical barrel and heavy-duty machine is rigorously tested for enterprise compliance.</p>
+          </div>
+          <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
+            <Box className="w-10 h-10 text-purple-400 mb-6" />
+            <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">Wholesale Tiering</h3>
+            <p className="text-gray-400 leading-relaxed font-light">Dynamic algorithmic pricing guarantees you the absolute lowest cost at maximum volume.</p>
           </div>
         </div>
       </section>
 
-      {/* Featured Products Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-        <div className="flex justify-between items-end mb-10">
-          <div>
-            <h2 className="text-4xl font-black text-gray-900 tracking-tight">Trending Supplies</h2>
-            <p className="text-gray-500 font-medium mt-2">Restock your inventory with our highest-rated equipment.</p>
-          </div>
-          <Link href="/products" className="hidden sm:flex items-center gap-2 text-blue-600 font-bold hover:text-blue-700 transition-colors group">
+      {/* Dark Mode Product Grid Override */}
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
+        <div className="flex justify-between items-end mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white">Trending Supplies</h2>
+          <Link href="/products" className="hidden sm:flex items-center gap-2 text-gray-400 font-bold hover:text-white transition-colors group">
             View full catalog <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <div key={product.id} className="group relative bg-white/[0.03] border border-white/10 rounded-3xl p-4 hover:bg-white/[0.08] transition-colors duration-500">
+              <Link href={/products/ + product.id} className="block relative aspect-square w-full rounded-2xl overflow-hidden mb-6 bg-white">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  className="object-cover mix-blend-multiply group-hover:scale-110 transition-transform duration-700 ease-out"
+                  quality={90}
+                />
+              </Link>
+              <div className="px-2 pb-2">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-lg font-bold text-white line-clamp-1">{product.name}</h3>
+                </div>
+                <div className="flex justify-between items-center mt-4">
+                  <span className="text-xl font-light text-gray-300">₹{product.price.toFixed(2)}</span>
+                  <Link href={/products/ + product.id} className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform">
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </section>
