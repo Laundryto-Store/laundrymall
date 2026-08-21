@@ -20,7 +20,7 @@ const getHeaders = (token?: string) => {
 };
 
 export async function loginAction(formData: FormData) {
-  const email = formData.get("email") as string;
+  const email = (formData.get("email") as string).toLowerCase().trim();
   const password = formData.get("password") as string;
 
   try {
@@ -56,7 +56,7 @@ export async function loginAction(formData: FormData) {
 }
 
 export async function signupAction(formData: FormData) {
-  const email = formData.get("email") as string;
+  const email = (formData.get("email") as string).toLowerCase().trim();
   const password = formData.get("password") as string;
   const firstName = formData.get("first_name") as string;
   const lastName = formData.get("last_name") as string;
