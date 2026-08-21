@@ -241,7 +241,7 @@ export default function CheckoutPage() {
                       <p className="text-xs text-gray-500">{item.category}</p>
                     </div>
                     <div className="font-bold text-gray-900">
-                      ?{(item.price * item.quantity).toFixed(2)}
+                      ₹{(item.price * item.quantity).toFixed(2)}
                     </div>
                   </div>
                 ))}
@@ -250,7 +250,7 @@ export default function CheckoutPage() {
               <div className="border-t border-gray-100 pt-6 space-y-3 mb-6">
                 <div className="flex justify-between text-gray-500">
                   <span>Subtotal</span>
-                  <span className="font-medium text-gray-900">?{cartTotal().toFixed(2)}</span>
+                  <span className="font-medium text-gray-900">₹{cartTotal().toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-500">
                   <span>Shipping</span>
@@ -266,7 +266,7 @@ export default function CheckoutPage() {
                 <span className="text-lg font-bold text-gray-900">Total</span>
                 <span className="text-3xl font-black text-gray-900 tracking-tight">
                   <span className="text-sm font-medium text-gray-500 mr-2">INR</span>
-                  ?{cartTotal().toFixed(2)}
+                  ₹{cartTotal().toFixed(2)}
                 </span>
               </div>
 
@@ -276,7 +276,7 @@ export default function CheckoutPage() {
                   <h4 className="font-bold text-blue-900 text-sm mb-1">LaundryMall Buyer Protection</h4>
                   <p className="text-xs text-blue-800/70 leading-relaxed">
                     Your purchase is secured with enterprise-grade encryption. 
-                    Full refund guarantee on damaged equipment.
+                    Dedicated B2B support for all your operational needs.
                   </p>
                 </div>
               </div>

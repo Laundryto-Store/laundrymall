@@ -90,7 +90,7 @@ export default function CartDrawer() {
                         >+</button>
                       </div>
                       <div className="font-black text-gray-900 tracking-tight">
-                        ?{(item.price * item.quantity).toFixed(2)}
+                        ₹{(item.price * item.quantity).toFixed(2)}
                       </div>
                     </div>
                   </div>
@@ -111,7 +111,7 @@ export default function CartDrawer() {
           <div className="border-t border-gray-100 p-6 bg-white z-10 shadow-[0_-10px_40px_rgba(0,0,0,0.03)]">
             <div className="flex justify-between items-end mb-2">
               <span className="text-gray-500 font-medium">Subtotal</span>
-              <span className="text-3xl font-black text-gray-900 tracking-tight">?{cartTotal().toFixed(2)}</span>
+              <span className="text-3xl font-black text-gray-900 tracking-tight">₹{cartTotal().toFixed(2)}</span>
             </div>
             <p className="text-sm text-gray-500 mb-6 flex items-center gap-1.5">
               <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
