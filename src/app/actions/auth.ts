@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -41,7 +41,7 @@ export async function loginAction(formData: FormData) {
   });
 
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message };
+    return { error: parsed.error.issues[0].message };
   }
 
   const { email, password } = parsed.data;
@@ -88,7 +88,7 @@ export async function signupAction(formData: FormData) {
   });
 
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message };
+    return { error: parsed.error.issues[0].message };
   }
 
   const { email, password, first_name, last_name } = parsed.data;
